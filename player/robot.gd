@@ -1,4 +1,4 @@
-extends CharacterBody3D
+class_name Robot extends CharacterBody3D
 
 
 var max_velocity: float = 5.0
@@ -6,6 +6,8 @@ var current_speed: float = 0.0
 var move_speed: float = 5.0
 var turn_speed: float = .3
 var damping_force: float = 10.0
+
+var attachment: Attachment
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -31,22 +33,19 @@ func _physics_process(delta: float) -> void:
 		current_speed = clampf(current_speed - delta * move_speed, -max_velocity, max_velocity)
 	else:
 		current_speed = move_toward(current_speed, 0, delta * damping_force)
-	print("current_speed: ", current_speed)
-	print("velocity is: ", velocity)
-	print("rot: ", rotation)
 	var adj_vel := Vector3(0, 0, -current_speed).rotated(Vector3.UP, rotation.y)
 	adj_vel = adj_vel
-	print("rot-adj: ", adj_vel)
 	velocity = adj_vel
 
 	move_and_slide()
 	
 	animate_treads(delta, command)
 	
-	$AnimatableBody.global_position = self.global_position
+	update_attachment()
 
 func attempt_action() -> void:
-	print("using action")
+	if attachment:
+		attachment.interact()
 
 func animate_treads(delta: float, command: PlayerCommand) -> void:
 	var l_forwards := true
@@ -63,9 +62,20 @@ func animate_treads(delta: float, command: PlayerCommand) -> void:
 
 func get_command() -> PlayerCommand:
 	var command := PlayerCommand.new()
-	command.action = Input.is_action_pressed("action")
+	command.action = Input.is_action_just_pressed("action")
 	command.forwards = Input.get_action_strength("forward")
 	command.backwards = Input.get_action_strength("backward")
 	command.right = Input.get_action_strength("right")
 	command.left = Input.get_action_strength("left")
 	return command
+
+func init_as_player(pos: Vector3) -> void:
+	global_position = pos
+
+func update_attachment() -> void:
+	if attachment:
+		attachment.move($AttachmentSpot.global_position)
+
+func set_attachment(attachment_scn: PackedScene) -> void:
+	attachment = attachment_scn.instantiate()
+	add_child(attachment)

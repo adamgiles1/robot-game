@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bnhd5gigvdb03"]
+[gd_scene load_steps=5 format=3 uid="uid://bnhd5gigvdb03"]
 
 [ext_resource type="Script" uid="uid://cwu4wl6eo0pdy" path="res://player/robot.gd" id="1_0r4o4"]
 [ext_resource type="PackedScene" uid="uid://bh6mw1som0kha" path="res://models/characters/sci-fi-box.glb" id="1_j7mwn"]
@@ -7,12 +7,6 @@
 size = Vector3(2, 1, 3.9)
 
 [sub_resource type="PrismMesh" id="PrismMesh_j7mwn"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_0r4o4"]
-size = Vector3(1.9064941, 1, 0.4)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_r1lfo"]
-size = Vector3(3, 1, 3)
 
 [node name="Robot" type="CharacterBody3D"]
 script = ExtResource("1_0r4o4")
@@ -45,26 +39,7 @@ mesh = SubResource("PrismMesh_j7mwn")
 
 [node name="Hitch" type="Node3D" parent="."]
 
-[node name="AnimatableBody" type="AnimatableBody3D" parent="."]
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="AnimatableBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45730805, 2.0080135, 1.310782)
-shape = SubResource("BoxShape3D_0r4o4")
-
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="AnimatableBody"]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 2, 0.29999995)
-shape = SubResource("BoxShape3D_0r4o4")
-
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="AnimatableBody"]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 2.0080135, -0.70000005)
-shape = SubResource("BoxShape3D_0r4o4")
-
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="AnimatableBody"]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.54269195, 2, 0.31078196)
-shape = SubResource("BoxShape3D_0r4o4")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
-shape = SubResource("BoxShape3D_r1lfo")
+[node name="AttachmentSpot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [editable path="sci-fi-box"]
