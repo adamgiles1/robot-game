@@ -22,9 +22,9 @@ func _physics_process(delta: float) -> void:
 	
 	# handle rotation
 	if command.left:
-		rotate_y(delta * turn_speed)
+		rotate_y(delta * turn_speed * (-1 if current_speed < 0 else 1))
 	elif command.right:
-		rotate_y(-delta * turn_speed)
+		rotate_y(-delta * turn_speed * (-1 if current_speed < 0 else 1))
 	
 	# handle movement
 	if command.forwards:
