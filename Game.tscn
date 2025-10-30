@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bs8fhv4ce14st"]
 
 [ext_resource type="Script" uid="uid://3rwnnfpvfdk4" path="res://GameManager.gd" id="1_u44n3"]
-[ext_resource type="Texture2D" uid="uid://ymv5swr7nmrr" path="res://icon.svg" id="1_wbfu4"]
+[ext_resource type="Texture2D" uid="uid://ymv5swr7nmrr" path="res://icon.svg" id="2_xkndl"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xkndl"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -16,10 +16,9 @@ sky = SubResource("Sky_u44n3")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xkndl"]
-albedo_texture = ExtResource("1_wbfu4")
-uv1_triplanar = true
-stencil_flags = 2
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u44n3"]
+albedo_texture = ExtResource("2_xkndl")
+uv1_scale = Vector3(100, 100, 100)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_u44n3"]
 size = Vector2(100, 100)
@@ -38,7 +37,7 @@ shadow_enabled = true
 environment = SubResource("Environment_sb48q")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = SubResource("StandardMaterial3D_xkndl")
+material_override = SubResource("StandardMaterial3D_u44n3")
 mesh = SubResource("PlaneMesh_u44n3")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]

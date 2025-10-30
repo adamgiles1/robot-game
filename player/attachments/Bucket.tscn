@@ -1,0 +1,108 @@
+[gd_scene load_steps=12 format=3 uid="uid://ccdppjb561n3l"]
+
+[ext_resource type="Script" uid="uid://cclcelwbpiss5" path="res://player/attachments/bucket.gd" id="1_1uv8f"]
+
+[sub_resource type="Animation" id="Animation_1uv8f"]
+resource_name = "bounce"
+length = 0.2
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationProxy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.1, 1, 0, 1, 0, 0.2, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_8r0dj"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationProxy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_611b5"]
+resource_name = "pour"
+length = 2.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationProxy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0.5, 0, 2, 1, 0, 0, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationProxy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0.707, 0, 0, 0.707, 2, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_611b5"]
+_data = {
+&"RESET": SubResource("Animation_8r0dj"),
+&"bounce": SubResource("Animation_1uv8f"),
+&"pour": SubResource("Animation_611b5")
+}
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1uv8f"]
+height = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_1uv8f"]
+size = Vector3(1, 0.1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8r0dj"]
+size = Vector3(1, 0.05, 0.5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1uv8f"]
+points = PackedVector3Array(0.47900528, 0.049999997, 0.47900528, -0.50793654, -0.05792563, -0.50793654, -0.50793654, -0.05792563, 0.50793654, 0.50793654, -0.05792563, -0.50793654, -0.47900528, 0.049999997, -0.47900528, 0.50793654, -0.05792563, 0.50793654, -0.47900528, 0.049999997, 0.47900528, 0.47900528, 0.049999997, -0.47900528)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8r0dj"]
+points = PackedVector3Array(0.50793654, 0.030543126, 0.26587301, -0.50793654, -0.03292408, -0.25793654, -0.50793654, 0.030543126, -0.25793654, 0.50793654, -0.03292408, -0.25793654, -0.50793654, -0.03292408, 0.26587301, -0.50793654, 0.030543126, 0.26587301, 0.50793654, 0.030543126, -0.25793654, 0.50793654, -0.03292408, 0.26587301)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_611b5"]
+points = PackedVector3Array(0.50793654, 0.030543126, 0.26587301, -0.50793654, -0.03292408, -0.25793654, -0.50793654, 0.030543126, -0.25793654, 0.50793654, -0.03292408, -0.25793654, -0.50793654, -0.03292408, 0.26587301, -0.50793654, 0.030543126, 0.26587301, 0.50793654, 0.030543126, -0.25793654, 0.50793654, -0.03292408, 0.26587301)
+
+[node name="Bucket" type="Node3D"]
+script = ExtResource("1_1uv8f")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_611b5")
+}
+
+[node name="AnimationProxy" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimationProxy"]
+mesh = SubResource("CylinderMesh_1uv8f")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+remote_path = NodePath("../AnimatableBody3D")
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatableBody3D"]
+mesh = SubResource("BoxMesh_1uv8f")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatableBody3D/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, -0.25881904, 0, 0.25881904, 0.9659258, 0, 0.08203886, -0.6)
+mesh = SubResource("BoxMesh_8r0dj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="AnimatableBody3D/MeshInstance3D"]
+transform = Transform3D(-1, -2.262668e-08, -8.444392e-08, 0, 0.96592593, -0.25881907, 8.7422784e-08, -0.25881907, -0.96592593, 0, 0.08203886, 0.6)
+mesh = SubResource("BoxMesh_8r0dj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D"]
+shape = SubResource("ConvexPolygonShape3D_1uv8f")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, -0.25881904, 0, 0.25881904, 0.9659258, 0, 0.08203886, -0.6)
+shape = SubResource("ConvexPolygonShape3D_8r0dj")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="AnimatableBody3D"]
+transform = Transform3D(-1, -2.262668e-08, -8.444392e-08, 0, 0.96592593, -0.25881907, 8.7422784e-08, -0.25881907, -0.96592593, 0, 0.08203886, 0.6)
+shape = SubResource("ConvexPolygonShape3D_611b5")

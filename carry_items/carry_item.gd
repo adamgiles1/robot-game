@@ -7,6 +7,8 @@ func _ready() -> void:
 	set_collision_layer_value(3, true)
 	set_collision_mask_value(1, true)
 	set_collision_mask_value(2, true)
+	#axis_lock_angular_z = true
+	axis_lock_linear_z = true
 	max_contacts_reported = 10
 	contact_monitor = true
 

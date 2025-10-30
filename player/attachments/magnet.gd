@@ -6,7 +6,10 @@ var attached_items: Array[MagnetTouchInfo]
 func _physics_process(delta: float) -> void:
 	if is_on:
 		for info: MagnetTouchInfo in attached_items:
-			info.item.magnet_grab(global_position + info.offset, constant_linear_velocity)
+			info.item.magnet_grab(global_position + info.offset, $AnimatableBody.constant_linear_velocity)
+
+func get_anim_body() -> AnimatableBody3D:
+	return $AnimatableBody
 
 func interact() -> void:
 	is_on = !is_on
