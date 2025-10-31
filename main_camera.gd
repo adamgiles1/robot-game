@@ -10,6 +10,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if target == null:
+		return
 	var target_x_pos := target.global_position.x
 	global_position.x = clamp(move_toward(global_position.x, target_x_pos, delta * speed), target_x_pos - 1.5, target_x_pos + 1.5)
 	

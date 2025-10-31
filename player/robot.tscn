@@ -8,7 +8,7 @@ size = Vector3(2, 1, 3.9)
 
 [sub_resource type="PrismMesh" id="PrismMesh_j7mwn"]
 
-[node name="Robot" type="CharacterBody3D"]
+[node name="Robot" type="CharacterBody3D" groups=["GameCleanup"]]
 collision_layer = 2
 script = ExtResource("1_0r4o4")
 

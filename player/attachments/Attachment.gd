@@ -10,6 +10,7 @@ var anim_proxy: Node3D
 func _ready() -> void:
 	body = get_anim_body()
 	anim_proxy = get_anim_proxy()
+	add_to_group("GameCleanup")
 
 func _physics_process(delta: float) -> void:
 	if anim_proxy:
@@ -18,6 +19,9 @@ func _physics_process(delta: float) -> void:
 
 @abstract
 func interact() -> void
+
+@abstract
+func interact_alt() -> void
 
 @abstract
 func touch(item: CarryItem) -> void

@@ -1,4 +1,4 @@
-class_name Bucket extends Attachment
+class_name Launcher extends Attachment
 
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 
@@ -9,10 +9,10 @@ func get_anim_proxy() -> Node3D:
 	return $AnimationProxy
 
 func interact() -> void:
-	anim_player.play("pour")
+	anim_player.play("chuck")
 
 func interact_alt() -> void:
-	anim_player.play("bounce")
+	anim_player.play("RESET")
 
 func touch(item: CarryItem) -> void:
-	print("bucket touched")
+	print("launcher touched")

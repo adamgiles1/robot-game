@@ -17,6 +17,9 @@ func interact() -> void:
 	if !is_on:
 		attached_items.clear()
 
+func interact_alt() -> void:
+	pass
+
 func touch(touched: CarryItem) -> void:
 	if is_on && !attached_items.has(touched):
 		var info := MagnetTouchInfo.new()

@@ -3,6 +3,7 @@ class_name Robot extends CharacterBody3D
 
 var max_velocity: float = 5.0
 var current_speed: float = 0.0
+var current_vertical_speed: float = 0.0
 var move_speed: float = 5.0
 var damping_force: float = 10.0
 
@@ -18,6 +19,8 @@ func _physics_process(delta: float) -> void:
 	# handle action
 	if command.action:
 		attempt_action()
+	if command.action_alt:
+		attempt_alt_action()
 	
 	# handle movement
 	if command.left:
@@ -27,7 +30,16 @@ func _physics_process(delta: float) -> void:
 	else:
 		current_speed = move_toward(current_speed, 0, delta * damping_force)
 	
-	var adj_vel := Vector3(-current_speed, 0, 0)
+	# handle vertical movement
+	if is_on_floor():
+		current_vertical_speed = 0.0
+		if command.jump:
+			current_vertical_speed = 5.0
+	else:
+		# apply gravity
+		current_vertical_speed += get_gravity().y * delta
+	
+	var adj_vel := Vector3(-current_speed, current_vertical_speed, 0)
 	velocity = adj_vel
 
 	move_and_slide()
@@ -40,6 +52,10 @@ func attempt_action() -> void:
 	if attachment:
 		attachment.interact()
 
+func attempt_alt_action() -> void:
+	if attachment:
+		attachment.interact_alt()
+
 func animate_treads(delta: float) -> void:
 	$Treads/Left.rotate_x(-delta * current_speed)
 	$Treads/Right.rotate_x(-delta * current_speed)
@@ -47,8 +63,10 @@ func animate_treads(delta: float) -> void:
 func get_command() -> PlayerCommand:
 	var command := PlayerCommand.new()
 	command.action = Input.is_action_just_pressed("action")
+	command.action_alt = Input.is_action_just_pressed("action_alt")
 	command.right = Input.get_action_strength("right")
 	command.left = Input.get_action_strength("left")
+	command.jump = Input.is_action_just_pressed("jump")
 	return command
 
 func init_as_player(pos: Vector3) -> void:

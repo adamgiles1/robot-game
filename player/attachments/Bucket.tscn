@@ -2,6 +2,16 @@
 
 [ext_resource type="Script" uid="uid://cclcelwbpiss5" path="res://player/attachments/bucket.gd" id="1_1uv8f"]
 
+[sub_resource type="Animation" id="Animation_8r0dj"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationProxy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
 [sub_resource type="Animation" id="Animation_1uv8f"]
 resource_name = "bounce"
 length = 0.2
@@ -13,16 +23,6 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.1, 1, 0, 1, 0, 0.2, 1, 0, 0, 0)
 
-[sub_resource type="Animation" id="Animation_8r0dj"]
-length = 0.001
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimationProxy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
-
 [sub_resource type="Animation" id="Animation_611b5"]
 resource_name = "pour"
 length = 2.0
@@ -32,7 +32,7 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("AnimationProxy")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0.5, 0, 2, 1, 0, 0, 0)
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0.5, 0, 2, 1, 0, 0, 0)
 tracks/1/type = "rotation_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
