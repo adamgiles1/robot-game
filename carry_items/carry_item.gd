@@ -13,6 +13,7 @@ func _ready() -> void:
 	axis_lock_linear_z = true
 	max_contacts_reported = 10
 	contact_monitor = true
+	Signals.ROUND_ENDED.connect(handle_round_end)
 
 # to be called every frame the magnet is touching
 func magnet_grab(pos: Vector3, vel: Vector3) -> void:
@@ -20,8 +21,14 @@ func magnet_grab(pos: Vector3, vel: Vector3) -> void:
 	linear_velocity = vel
 	angular_velocity = Vector3.ZERO
 
+func handle_round_end() -> void:
+	freeze = true
+
 func handle_collision(body: Node) -> void:
 	if body is Attachment:
 		print("touched body")
 		print("offset is: ", body.global_position - global_position)
 		body.touch(self)
+
+func is_on_ground() -> bool:
+	return false

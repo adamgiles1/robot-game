@@ -9,7 +9,15 @@ var damping_force: float = 10.0
 
 var attachment: Attachment
 
+var is_frozen := false
+
+func _ready() -> void:
+	Signals.ROUND_ENDED.connect(handle_round_end)
+
 func _physics_process(delta: float) -> void:
+	if is_frozen:
+		return
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -79,3 +87,6 @@ func update_attachment() -> void:
 func set_attachment(attachment_scn: PackedScene) -> void:
 	attachment = attachment_scn.instantiate()
 	add_child(attachment)
+
+func handle_round_end() -> void:
+	is_frozen = true
