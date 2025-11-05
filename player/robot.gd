@@ -55,6 +55,9 @@ func _physics_process(delta: float) -> void:
 	animate_treads(delta)
 	
 	update_attachment()
+	
+	# debugging
+	Debug.log("robotPos", global_position)
 
 func attempt_action() -> void:
 	if attachment:

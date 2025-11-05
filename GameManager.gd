@@ -26,12 +26,14 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_left"):
 		start_round(default_first_round_game_info())
+	if Input.is_action_just_pressed("ui_down"):
+		start_round(current_round)
 	if Input.is_action_just_pressed("ui_right"):
-		AudioService.play_sound("round-end-temp")
+		start_round(create_later_round_game_info(current_round, current_round.round + 1))
 	
 	var idx_change = 0
-	if Input.is_action_just_pressed("ui_up"): idx_change = 1
-	if Input.is_action_just_pressed("ui_down"): idx_change = -1
+	if Input.is_action_just_pressed("ui_text_toggle_insert_mode"): idx_change = 1
+	if Input.is_action_just_pressed("ui_text_delete"): idx_change = -1
 	attachment_idx = wrapi(attachment_idx + idx_change, 0, attachments.size())
 	update_att_type_label(attachments[attachment_idx].resource_path.get_file())
 
@@ -43,6 +45,7 @@ func _physics_process(delta: float) -> void:
 			round_finished(false)
 
 func start_round(round_info: RoundInfo) -> void:
+	print("starting round: ", round_info.round)
 	clean_up_old_game()
 	await get_tree().process_frame
 	player = robot_scn.instantiate()
@@ -64,7 +67,13 @@ func start_round(round_info: RoundInfo) -> void:
 	spawn_carry_item(round_info.ball_spawn_point, round_info.ball_starting_velocity)
 
 func round_finished(success: bool) -> void:
-	print("round finished")
+	print("round finished with ", "success" if success else "failure")
+	AudioService.play_sound("round-end-temp")
+	
+	if success && current_mode == GameMode.PLAYING:
+		current_round.final_ball_point = current_carry_item.global_position
+		current_round.final_ball_velocity = current_carry_item.linear_velocity
+	
 	current_mode = GameMode.ROUND_OVER
 	Signals.ROUND_ENDED.emit()
 
@@ -89,6 +98,24 @@ func default_first_round_game_info() -> RoundInfo:
 	info.ball_spawn_point = Vector3(-5, 4, 0)
 	info.ball_starting_velocity = Vector3(5, 5, 0)
 	info.round_end_distance = 30
+	return info
+
+func create_later_round_game_info(previous_round: RoundInfo, round_num: int) -> RoundInfo:
+	var info := RoundInfo.new()
+	info.previous_round = previous_round
+	info.round = round_num
+	
+	var round_distance_offset: int = 30 * round_num
+	info.player_spawn_point = Vector3(round_distance_offset + 2, 1, 0)
+	
+	if previous_round.final_ball_point:
+		info.ball_spawn_point = previous_round.final_ball_point
+		info.ball_starting_velocity = previous_round.final_ball_velocity
+	else:
+		info.ball_spawn_point = Vector3(-5, 4, 0) + info.player_spawn_point
+		info.ball_starting_velocity = Vector3(5, 5, 0)
+	
+	info.round_end_distance = round_distance_offset + 30
 	return info
 
 func replay_rounds(rounds: Array[RoundInfo]) -> void:

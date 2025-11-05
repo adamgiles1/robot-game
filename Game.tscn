@@ -18,13 +18,13 @@ glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u44n3"]
 albedo_texture = ExtResource("2_xkndl")
-uv1_scale = Vector3(100, 100, 100)
+uv1_scale = Vector3(500, 20, 20)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_u44n3"]
-size = Vector2(100, 100)
+size = Vector2(500, 20)
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_sb48q"]
-data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_xkndl"]
+data = PackedVector3Array(250, 0, 10, -250, 0, 10, 250, 0, -10, -250, 0, 10, -250, 0, -10, 250, 0, -10)
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_u44n3")
@@ -43,7 +43,7 @@ mesh = SubResource("PlaneMesh_u44n3")
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_sb48q")
+shape = SubResource("ConcavePolygonShape3D_xkndl")
 
 [node name="AttachmentType" type="Label" parent="."]
 unique_name_in_owner = true
