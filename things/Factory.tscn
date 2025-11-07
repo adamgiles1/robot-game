@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://cphdk2712gj3b"]
+[gd_scene load_steps=6 format=3 uid="uid://cphdk2712gj3b"]
 
 [ext_resource type="Texture2D" uid="uid://ymv5swr7nmrr" path="res://icon.svg" id="1_cpypl"]
-[ext_resource type="Texture2D" uid="uid://b3wrrqidfwvfx" path="res://textures/floor.jpg" id="2_urgrv"]
 [ext_resource type="PackedScene" uid="uid://dh5336uxr7rs" path="res://models/rooms/factory.glb" id="3_5828l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_urgrv"]
@@ -14,15 +13,6 @@ size = Vector2(500, 20)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_5jl7p"]
 data = PackedVector3Array(250, 0, 10, -250, 0, 10, 250, 0, -10, -250, 0, 10, -250, 0, -10, 250, 0, -10)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5828l"]
-albedo_texture = ExtResource("2_urgrv")
-uv1_triplanar = true
-texture_filter = 0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_cpypl"]
-material = SubResource("StandardMaterial3D_5828l")
-size = Vector2(500, 20)
-
 [node name="Factory" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -34,9 +24,6 @@ mesh = SubResource("PlaneMesh_5828l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_5jl7p")
-
-[node name="Floor" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_cpypl")
 
 [node name="factory" parent="." instance=ExtResource("3_5828l")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)

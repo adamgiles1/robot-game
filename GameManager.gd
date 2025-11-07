@@ -56,7 +56,7 @@ func start_round(round_info: RoundInfo) -> void:
 	
 	camera = preload("res://player/main_camera.tscn").instantiate()
 	add_child(camera)
-	camera.global_position = Vector3(0, 4, 10)
+	camera.global_position = Vector3(0, 5, 15)
 	camera.set_target(player)
 	
 	current_round = round_info
