@@ -21,6 +21,10 @@ Signals="*res://signals.gd"
 AudioService="*res://audio_service.gd"
 Debug="*res://debugging/debug.gd"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [global_group]
 
 GameCleanup=""

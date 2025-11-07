@@ -3,6 +3,5 @@
 [ext_resource type="Script" uid="uid://bp86e18k5sgbs" path="res://main_camera.gd" id="1_yu7ev"]
 
 [node name="MainCamera" type="Camera3D" groups=["GameCleanup"]]
-fov = 90.0
 size = 10.0
 script = ExtResource("1_yu7ev")

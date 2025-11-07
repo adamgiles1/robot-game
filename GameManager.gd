@@ -56,7 +56,7 @@ func start_round(round_info: RoundInfo) -> void:
 	
 	camera = preload("res://player/main_camera.tscn").instantiate()
 	add_child(camera)
-	camera.global_position = Vector3(0, 5, 10)
+	camera.global_position = Vector3(0, 4, 10)
 	camera.set_target(player)
 	
 	current_round = round_info
@@ -64,7 +64,8 @@ func start_round(round_info: RoundInfo) -> void:
 	
 	# wait to spawn item
 	await get_tree().create_timer(.25).timeout
-	spawn_carry_item(round_info.ball_spawn_point, round_info.ball_starting_velocity)
+	var item := spawn_carry_item(round_info.ball_spawn_point, round_info.ball_starting_velocity)
+	#camera.set_target(item)
 
 func round_finished(success: bool) -> void:
 	print("round finished with ", "success" if success else "failure")
