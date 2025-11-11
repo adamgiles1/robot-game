@@ -1,5 +1,9 @@
 class_name CarryItem extends RigidBody3D
 
+var game_manager: GameManager
+var is_replay := false
+var replay_frames: Array[GameObjectFrameState]
+
 func _ready() -> void:
 	body_entered.connect(handle_collision)
 	collision_layer = 0
@@ -14,6 +18,12 @@ func _ready() -> void:
 	max_contacts_reported = 10
 	contact_monitor = true
 	Signals.ROUND_ENDED.connect(handle_round_end)
+
+func _physics_process(delta: float) -> void:
+	if is_replay:
+		update_replay_state(game_manager.current_round_time)
+	else:
+		create_replay_frame()
 
 # to be called every frame the magnet is touching
 func magnet_grab(pos: Vector3, vel: Vector3) -> void:
@@ -32,3 +42,23 @@ func handle_collision(body: Node) -> void:
 
 func is_on_ground() -> bool:
 	return false
+
+func init_as_local(game_manager: GameManager) -> void:
+	self.game_manager = game_manager
+
+func init_as_replay(frames: Array[GameObjectFrameState], game_manager: GameManager) -> void:
+	is_replay = true
+	self.game_manager = game_manager
+	replay_frames = frames
+
+func create_replay_frame() -> void:
+	var frame := GameObjectFrameState.new()
+	frame.position = global_position
+	game_manager.add_carry_item_frame(frame)
+
+func update_replay_state(round_time: float) -> void:
+	var frame_idx := replay_frames.rfind_custom(func(frame: GameObjectFrameState): return frame.timestamp < round_time)
+	if frame_idx == -1:
+		return
+	var current_frame := replay_frames[frame_idx]
+	global_position = current_frame.position

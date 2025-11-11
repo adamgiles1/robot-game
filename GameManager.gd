@@ -16,6 +16,7 @@ var player: Robot
 var current_carry_item: CarryItem
 var current_round: RoundInfo
 var current_mode := GameMode.WAITING
+var current_round_time: float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -30,6 +31,10 @@ func _process(delta: float) -> void:
 		start_round(current_round)
 	if Input.is_action_just_pressed("ui_right"):
 		start_round(create_later_round_game_info(current_round, current_round.round + 1))
+	if Input.is_action_just_pressed("ui_up"):
+		start_replay([current_round])
+	
+	current_round_time += delta
 	
 	var idx_change = 0
 	if Input.is_action_just_pressed("ui_text_toggle_insert_mode"): idx_change = 1
@@ -51,7 +56,7 @@ func start_round(round_info: RoundInfo) -> void:
 	player = robot_scn.instantiate()
 	player.rotate_y(PI/2)
 	add_child(player)
-	player.init_as_player(round_info.player_spawn_point)
+	player.init_as_player(round_info.player_spawn_point, self)
 	player.set_attachment(attachments[attachment_idx])
 	
 	camera = preload("res://player/main_camera.tscn").instantiate()
@@ -65,7 +70,34 @@ func start_round(round_info: RoundInfo) -> void:
 	# wait to spawn item
 	await get_tree().create_timer(.25).timeout
 	var item := spawn_carry_item(round_info.ball_spawn_point, round_info.ball_starting_velocity)
+	item.init_as_local(self)
 	#camera.set_target(item)
+
+func start_replay(round_infos: Array[RoundInfo]) -> void:
+	print("starting replay of %s rounds" % len(round_infos))
+	clean_up_old_game()
+	await get_tree().process_frame
+	
+	# for now only replay first round
+	var round_info := round_infos[0]
+	player = robot_scn.instantiate()
+	player.rotate_y(PI/2)
+	add_child(player)
+	player.init_as_replay(round_info.player_spawn_point, round_info.robot_positions, self)
+	player.set_attachment(attachments[attachment_idx])
+	
+	camera = preload("res://player/main_camera.tscn").instantiate()
+	add_child(camera)
+	camera.global_position = Vector3(0, 5, 15)
+	camera.set_target(player)
+	
+	current_mode = GameMode.REPLAY
+	
+	# wait to spawn item TODO this should happen based off the replay, not hardcoded
+	await get_tree().create_timer(.25).timeout
+	var item := spawn_carry_item(round_info.ball_spawn_point, round_info.ball_starting_velocity)
+	item.init_as_replay(round_info.ball_positions, self)
+	camera.set_target(item)
 
 func round_finished(success: bool) -> void:
 	print("round finished with ", "success" if success else "failure")
@@ -79,6 +111,7 @@ func round_finished(success: bool) -> void:
 	Signals.ROUND_ENDED.emit()
 
 func clean_up_old_game():
+	current_round_time = 0
 	for node in get_tree().get_nodes_in_group("GameCleanup"):
 		node.queue_free()
 
@@ -92,6 +125,14 @@ func spawn_carry_item(spawn_point: Vector3, starting_velocity: Vector3) -> Carry
 
 func update_att_type_label(attachment_name: String) -> void:
 	$AttachmentType.text = "next attachment: " + attachment_name
+
+func add_robot_frame(frame: GameObjectFrameState) -> void:
+	frame.timestamp = current_round_time
+	current_round.add_robot_position(frame)
+
+func add_carry_item_frame(frame: GameObjectFrameState) -> void:
+	frame.timestamp = current_round_time
+	current_round.add_ball_position(frame)
 
 func default_first_round_game_info() -> RoundInfo:
 	var info := RoundInfo.new()
@@ -118,6 +159,3 @@ func create_later_round_game_info(previous_round: RoundInfo, round_num: int) -> 
 	
 	info.round_end_distance = round_distance_offset + 30
 	return info
-
-func replay_rounds(rounds: Array[RoundInfo]) -> void:
-	print("replaying %s rounds" % len(rounds))

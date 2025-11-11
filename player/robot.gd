@@ -1,5 +1,6 @@
 class_name Robot extends CharacterBody3D
 
+var game_manager: GameManager
 
 var max_velocity: float = 5.0
 var current_speed: float = 0.0
@@ -10,12 +11,18 @@ var damping_force: float = 10.0
 var attachment: Attachment
 
 var is_frozen := false
+var is_replay := false
+var replay_frames: Array[GameObjectFrameState]
 
 func _ready() -> void:
 	Signals.ROUND_ENDED.connect(handle_round_end)
 
 func _physics_process(delta: float) -> void:
 	if is_frozen:
+		return
+	if is_replay:
+		update_attachment()
+		update_replay_state(game_manager.current_round_time)
 		return
 	
 	# Add the gravity.
@@ -56,6 +63,8 @@ func _physics_process(delta: float) -> void:
 	
 	update_attachment()
 	
+	create_replay_frame()
+	
 	# debugging
 	Debug.log("robotPos", global_position)
 
@@ -80,8 +89,15 @@ func get_command() -> PlayerCommand:
 	command.jump = Input.is_action_just_pressed("jump")
 	return command
 
-func init_as_player(pos: Vector3) -> void:
+func init_as_player(pos: Vector3, game_manager: GameManager) -> void:
 	global_position = pos
+	self.game_manager = game_manager
+
+func init_as_replay(pos: Vector3, frames: Array[GameObjectFrameState], game_manager: GameManager) -> void:
+	is_replay = true
+	global_position = pos
+	self.game_manager = game_manager
+	replay_frames = frames
 
 func update_attachment() -> void:
 	if attachment:
@@ -93,3 +109,15 @@ func set_attachment(attachment_scn: PackedScene) -> void:
 
 func handle_round_end() -> void:
 	is_frozen = true
+
+func create_replay_frame() -> void:
+	var frame := GameObjectFrameState.new()
+	frame.position = global_position
+	game_manager.add_robot_frame(frame)
+
+func update_replay_state(round_time: float) -> void:
+	var frame_idx := replay_frames.rfind_custom(func(frame: GameObjectFrameState): return frame.timestamp < round_time)
+	if frame_idx == -1:
+		return
+	var current_frame := replay_frames[frame_idx]
+	global_position = current_frame.position
