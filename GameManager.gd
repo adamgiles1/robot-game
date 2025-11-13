@@ -17,6 +17,10 @@ var current_carry_item: CarryItem
 var current_round: RoundInfo
 var current_mode := GameMode.WAITING
 var current_round_time: float = 0.0
+var all_rounds: Array[RoundInfo] = []
+
+var replay_rounds: Array[RoundInfo]
+var replay_active_scene_idx: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -30,11 +34,14 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_down"):
 		start_round(current_round)
 	if Input.is_action_just_pressed("ui_right"):
-		start_round(create_later_round_game_info(current_round, current_round.round + 1))
+		start_round(create_later_round_game_info(current_round, current_round.round + 1, current_round_time))
 	if Input.is_action_just_pressed("ui_up"):
-		start_replay([current_round])
+		start_replay(all_rounds)
 	
-	current_round_time += delta
+	if current_mode == GameMode.PLAYING || current_mode == GameMode.REPLAY:
+		current_round_time += delta
+	Debug.log("roundTime", current_round_time)
+	print("current carry item: ", current_carry_item)
 	
 	var idx_change = 0
 	if Input.is_action_just_pressed("ui_text_toggle_insert_mode"): idx_change = 1
@@ -48,6 +55,14 @@ func _physics_process(delta: float) -> void:
 			round_finished(true)
 		elif current_carry_item.is_on_ground():
 			round_finished(false)
+	
+	if current_mode == GameMode.REPLAY:
+		if (replay_active_scene_idx < len(replay_rounds) - 1 &&
+			current_round_time > replay_rounds[replay_active_scene_idx + 1].round_start_time):
+			
+			print("really is null: ", current_carry_item)
+			load_next_replay_round()
+		
 
 func start_round(round_info: RoundInfo) -> void:
 	print("starting round: ", round_info.round)
@@ -77,14 +92,16 @@ func start_replay(round_infos: Array[RoundInfo]) -> void:
 	print("starting replay of %s rounds" % len(round_infos))
 	clean_up_old_game()
 	await get_tree().process_frame
+	current_round_time = 0
+	replay_rounds = round_infos
+	await get_tree().process_frame
 	
-	# for now only replay first round
-	var round_info := round_infos[0]
-	player = robot_scn.instantiate()
-	player.rotate_y(PI/2)
-	add_child(player)
-	player.init_as_replay(round_info.player_spawn_point, round_info.robot_positions, self)
-	player.set_attachment(attachments[attachment_idx])
+	for round_info in round_infos:
+		player = robot_scn.instantiate()
+		player.rotate_y(PI/2)
+		add_child(player)
+		player.init_as_replay(round_info.player_spawn_point, round_info.robot_positions, self)
+		player.set_attachment(attachments[attachment_idx])
 	
 	camera = preload("res://player/main_camera.tscn").instantiate()
 	add_child(camera)
@@ -95,8 +112,8 @@ func start_replay(round_infos: Array[RoundInfo]) -> void:
 	
 	# wait to spawn item TODO this should happen based off the replay, not hardcoded
 	await get_tree().create_timer(.25).timeout
-	var item := spawn_carry_item(round_info.ball_spawn_point, round_info.ball_starting_velocity)
-	item.init_as_replay(round_info.ball_positions, self)
+	var item := spawn_carry_item(round_infos[0].ball_spawn_point, round_infos[0].ball_starting_velocity)
+	item.init_as_replay(round_infos[0].ball_positions, self)
 	camera.set_target(item)
 
 func round_finished(success: bool) -> void:
@@ -108,10 +125,17 @@ func round_finished(success: bool) -> void:
 		current_round.final_ball_velocity = current_carry_item.linear_velocity
 	
 	current_mode = GameMode.ROUND_OVER
+	all_rounds.append(current_round)
 	Signals.ROUND_ENDED.emit()
 
+func load_next_replay_round() -> void:
+	print("swapping replay to next round")
+	replay_active_scene_idx += 1
+	var active_round = replay_rounds[replay_active_scene_idx]
+	current_carry_item.init_as_replay(active_round.ball_positions, self)
+
 func clean_up_old_game():
-	current_round_time = 0
+	replay_active_scene_idx = 0
 	for node in get_tree().get_nodes_in_group("GameCleanup"):
 		node.queue_free()
 
@@ -121,6 +145,7 @@ func spawn_carry_item(spawn_point: Vector3, starting_velocity: Vector3) -> Carry
 	item.global_position = spawn_point
 	item.linear_velocity = starting_velocity
 	current_carry_item = item
+	print("is null: ", current_carry_item == null)
 	return item
 
 func update_att_type_label(attachment_name: String) -> void:
@@ -142,10 +167,11 @@ func default_first_round_game_info() -> RoundInfo:
 	info.round_end_distance = 30
 	return info
 
-func create_later_round_game_info(previous_round: RoundInfo, round_num: int) -> RoundInfo:
+func create_later_round_game_info(previous_round: RoundInfo, round_num: int, start_time: float) -> RoundInfo:
 	var info := RoundInfo.new()
 	info.previous_round = previous_round
 	info.round = round_num
+	info.round_start_time = start_time
 	
 	var round_distance_offset: int = 30 * round_num
 	info.player_spawn_point = Vector3(round_distance_offset + 2, 1, 0)

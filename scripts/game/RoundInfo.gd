@@ -7,6 +7,7 @@ var player_spawn_point: Vector3
 var ball_spawn_point: Vector3
 var ball_starting_velocity: Vector3
 var round_end_distance: int
+var round_start_time: float = -1.0
 
 # post round info
 var final_ball_point: Vector3
