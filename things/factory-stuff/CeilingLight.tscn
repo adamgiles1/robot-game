@@ -1,10 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://rgic0ikwf8nm"]
+[gd_scene load_steps=3 format=3 uid="uid://rgic0ikwf8nm"]
+
+[ext_resource type="Script" uid="uid://bquf0j3qxgpcs" path="res://things/factory-stuff/ceiling_light.gd" id="1_i63sh"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_jjia0"]
 
 [node name="CeilingLight" type="Node3D"]
+script = ExtResource("1_i63sh")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0, 0.7202832, 0.828028, 1)
 light_energy = 5.0
 omni_range = 50.0
 
