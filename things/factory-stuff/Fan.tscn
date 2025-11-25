@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://e6lfpty77dy4"]
+
+[ext_resource type="Script" uid="uid://djloin7nno7e1" path="res://things/factory-stuff/fan.gd" id="1_ipito"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_j73ow"]
+size = Vector3(1, 0.1, 1)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ipito"]
+data = PackedVector3Array(-0.5, 0.049999997, 0.5, 0.5, 0.049999997, 0.5, -0.5, -0.049999997, 0.5, 0.5, 0.049999997, 0.5, 0.5, -0.049999997, 0.5, -0.5, -0.049999997, 0.5, 0.5, 0.049999997, -0.5, -0.5, 0.049999997, -0.5, 0.5, -0.049999997, -0.5, -0.5, 0.049999997, -0.5, -0.5, -0.049999997, -0.5, 0.5, -0.049999997, -0.5, 0.5, 0.049999997, 0.5, 0.5, 0.049999997, -0.5, 0.5, -0.049999997, 0.5, 0.5, 0.049999997, -0.5, 0.5, -0.049999997, -0.5, 0.5, -0.049999997, 0.5, -0.5, 0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, -0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, -0.049999997, 0.5, -0.5, -0.049999997, -0.5, 0.5, 0.049999997, 0.5, -0.5, 0.049999997, 0.5, 0.5, 0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, 0.049999997, -0.5, 0.5, 0.049999997, -0.5, -0.5, -0.049999997, 0.5, 0.5, -0.049999997, 0.5, -0.5, -0.049999997, -0.5, 0.5, -0.049999997, 0.5, 0.5, -0.049999997, -0.5, -0.5, -0.049999997, -0.5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_j73ow"]
+data = PackedVector3Array(-0.5, 10, 0.5, 0.5, 10, 0.5, -0.5, -10, 0.5, 0.5, 10, 0.5, 0.5, -10, 0.5, -0.5, -10, 0.5, 0.5, 10, -0.5, -0.5, 10, -0.5, 0.5, -10, -0.5, -0.5, 10, -0.5, -0.5, -10, -0.5, 0.5, -10, -0.5, 0.5, 10, 0.5, 0.5, 10, -0.5, 0.5, -10, 0.5, 0.5, 10, -0.5, 0.5, -10, -0.5, 0.5, -10, 0.5, -0.5, 10, -0.5, -0.5, 10, 0.5, -0.5, -10, -0.5, -0.5, 10, 0.5, -0.5, -10, 0.5, -0.5, -10, -0.5, 0.5, 10, 0.5, -0.5, 10, 0.5, 0.5, 10, -0.5, -0.5, 10, 0.5, -0.5, 10, -0.5, 0.5, 10, -0.5, -0.5, -10, 0.5, 0.5, -10, 0.5, -0.5, -10, -0.5, 0.5, -10, 0.5, 0.5, -10, -0.5, -0.5, -10, -0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j73ow"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.2509804)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ipito"]
+material = SubResource("StandardMaterial3D_j73ow")
+size = Vector3(1, 20, 1)
+
+[node name="Fan" type="Node3D"]
+script = ExtResource("1_ipito")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_j73ow")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_ipito")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+shape = SubResource("ConcavePolygonShape3D_j73ow")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+mesh = SubResource("BoxMesh_ipito")

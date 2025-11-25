@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsh04cwmmmtft"]
+
+[ext_resource type="Script" uid="uid://cbxe3em3er11k" path="res://things/factory-stuff/conveyer_belt.gd" id="1_bi75w"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ineo6"]
+size = Vector3(4, 0.5, 0.85)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_boo7v"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_acqka"]
+data = PackedVector3Array(-2, 0.25, 0.42499998, 2, 0.25, 0.42499998, -2, -0.25, 0.42499998, 2, 0.25, 0.42499998, 2, -0.25, 0.42499998, -2, -0.25, 0.42499998, 2, 0.25, -0.42499998, -2, 0.25, -0.42499998, 2, -0.25, -0.42499998, -2, 0.25, -0.42499998, -2, -0.25, -0.42499998, 2, -0.25, -0.42499998, 2, 0.25, 0.42499998, 2, 0.25, -0.42499998, 2, -0.25, 0.42499998, 2, 0.25, -0.42499998, 2, -0.25, -0.42499998, 2, -0.25, 0.42499998, -2, 0.25, -0.42499998, -2, 0.25, 0.42499998, -2, -0.25, -0.42499998, -2, 0.25, 0.42499998, -2, -0.25, 0.42499998, -2, -0.25, -0.42499998, 2, 0.25, 0.42499998, -2, 0.25, 0.42499998, 2, 0.25, -0.42499998, -2, 0.25, 0.42499998, -2, 0.25, -0.42499998, 2, 0.25, -0.42499998, -2, -0.25, 0.42499998, 2, -0.25, 0.42499998, -2, -0.25, -0.42499998, 2, -0.25, 0.42499998, 2, -0.25, -0.42499998, -2, -0.25, -0.42499998)
+
+[node name="ConveyerBelt" type="Node3D"]
+script = ExtResource("1_bi75w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ineo6")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 8
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_boo7v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_acqka")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("ConcavePolygonShape3D_acqka")

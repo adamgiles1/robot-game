@@ -1,5 +1,11 @@
 class_name Robot extends CharacterBody3D
 
+enum Face {HAPPY, SAD}
+const faces: Dictionary[Face, String] = {
+	Face.HAPPY: ":)",
+	Face.SAD: ";("
+}
+
 var game_manager: GameManager
 
 var max_velocity: float = 5.0
@@ -108,6 +114,7 @@ func set_attachment(attachment_scn: PackedScene) -> void:
 	add_child(attachment)
 
 func handle_round_end() -> void:
+	update_face(Face.SAD)
 	is_frozen = true
 
 func create_replay_frame() -> void:
@@ -121,3 +128,7 @@ func update_replay_state(round_time: float) -> void:
 		return
 	var current_frame := replay_frames[frame_idx]
 	global_position = current_frame.position
+
+func update_face(new_face: Face) -> void:
+	if faces.has(new_face):
+		$%FaceTextLabel.text = faces[new_face]

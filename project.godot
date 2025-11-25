@@ -79,3 +79,4 @@ jump={
 3d_physics/layer_1="floor"
 3d_physics/layer_2="robot"
 3d_physics/layer_3="carryItem"
+3d_physics/layer_4="Non-Floor-Surface"

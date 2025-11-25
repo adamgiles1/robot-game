@@ -4,6 +4,9 @@ var game_manager: GameManager
 var is_replay := false
 var replay_frames: Array[GameObjectFrameState]
 
+var is_on_conveyor_belt := false
+var wind_force: Vector3 = Vector3.ZERO
+
 func _ready() -> void:
 	body_entered.connect(handle_collision)
 	collision_layer = 0
@@ -12,6 +15,7 @@ func _ready() -> void:
 	set_collision_mask_value(1, true)
 	set_collision_mask_value(2, true)
 	set_collision_mask_value(3, true)
+	set_collision_mask_value(4, true)
 	add_to_group("GameCleanup")
 	#axis_lock_angular_z = true
 	axis_lock_linear_z = true
@@ -24,6 +28,13 @@ func _physics_process(delta: float) -> void:
 		update_replay_state(game_manager.current_round_time)
 	else:
 		create_replay_frame()
+		if is_on_conveyor_belt:
+			is_on_conveyor_belt = false
+			apply_central_force(Vector3(5, 0, 0))
+		
+		if wind_force:
+			apply_central_force(wind_force)
+			wind_force = Vector3.ZERO
 
 # to be called every frame the magnet is touching
 func magnet_grab(pos: Vector3, vel: Vector3) -> void:
@@ -62,3 +73,9 @@ func update_replay_state(round_time: float) -> void:
 		return
 	var current_frame := replay_frames[frame_idx]
 	global_position = current_frame.position
+
+func set_touching_conveyer_belt() -> void:
+	is_on_conveyor_belt = true
+
+func set_wind_force(force: Vector3) -> void:
+	wind_force += force

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bnhd5gigvdb03"]
+[gd_scene load_steps=6 format=3 uid="uid://bnhd5gigvdb03"]
 
 [ext_resource type="Script" uid="uid://cwu4wl6eo0pdy" path="res://player/robot.gd" id="1_0r4o4"]
 [ext_resource type="PackedScene" uid="uid://bh6mw1som0kha" path="res://models/characters/sci-fi-box.glb" id="1_j7mwn"]
@@ -7,6 +7,9 @@
 size = Vector3(2, 1, 3.9)
 
 [sub_resource type="PrismMesh" id="PrismMesh_j7mwn"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0r4o4"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Robot" type="CharacterBody3D" groups=["GameCleanup"]]
 collision_layer = 2
@@ -38,5 +41,22 @@ mesh = SubResource("PrismMesh_j7mwn")
 
 [node name="AttachmentSpot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="FaceSprite" type="Sprite3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, 1, -1, -4.371139e-08, -4.371139e-08, 4.371139e-08, -1, 1.9106855e-15, -1.5461088, -0.02164483, 0.021193124)
+pixel_size = 0.05
+texture = SubResource("ViewportTexture_0r4o4")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(256, 256)
+
+[node name="FaceTextLabel" type="Label" parent="SubViewport"]
+unique_name_in_owner = true
+offset_right = 256.0
+offset_bottom = 256.0
+text = ": )"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [editable path="sci-fi-box"]

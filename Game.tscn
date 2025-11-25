@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bs8fhv4ce14st"]
+[gd_scene load_steps=8 format=3 uid="uid://bs8fhv4ce14st"]
 
 [ext_resource type="Script" uid="uid://3rwnnfpvfdk4" path="res://GameManager.gd" id="1_u44n3"]
 [ext_resource type="PackedScene" uid="uid://cphdk2712gj3b" path="res://things/Factory.tscn" id="2_xkndl"]
 [ext_resource type="PackedScene" uid="uid://rgic0ikwf8nm" path="res://things/factory-stuff/CeilingLight.tscn" id="3_u44n3"]
+[ext_resource type="PackedScene" uid="uid://dsh04cwmmmtft" path="res://things/factory-stuff/ConveyerBelt.tscn" id="4_sb48q"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xkndl"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -49,3 +50,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 17, -10)
 
 [node name="CeilingLight4" parent="." instance=ExtResource("3_u44n3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 17, -10)
+
+[node name="ConveyerBelt" parent="." instance=ExtResource("4_sb48q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.666073, 3.249999, 0.15768814)

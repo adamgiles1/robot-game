@@ -4,6 +4,7 @@ enum GameMode {WAITING, PLAYING, REPLAY, ROUND_OVER}
 
 var robot_scn: PackedScene = preload("res://player/robot.tscn")
 var carry_item: PackedScene = preload("res://carry_items/CarryItem.tscn")
+var fan_scn: PackedScene = preload("res://things/factory-stuff/Fan.tscn")
 var magnet_attachment: PackedScene = preload("res://player/attachments/Magnet.tscn")
 var bucket_attachment: PackedScene = preload("res://player/attachments/Bucket.tscn")
 var launcher_attachment: PackedScene = preload("res://player/attachments/Launcher.tscn")
@@ -41,7 +42,7 @@ func _process(delta: float) -> void:
 	if current_mode == GameMode.PLAYING || current_mode == GameMode.REPLAY:
 		current_round_time += delta
 	Debug.log("roundTime", current_round_time)
-	print("current carry item: ", current_carry_item)
+	Debug.log("current carry item: ", current_carry_item)
 	
 	var idx_change = 0
 	if Input.is_action_just_pressed("ui_text_toggle_insert_mode"): idx_change = 1
@@ -74,10 +75,16 @@ func start_round(round_info: RoundInfo) -> void:
 	player.init_as_player(round_info.player_spawn_point, self)
 	player.set_attachment(attachments[attachment_idx])
 	
+	# setup camera
 	camera = preload("res://player/main_camera.tscn").instantiate()
 	add_child(camera)
 	camera.global_position = Vector3(0, 5, 15)
 	camera.set_target(player)
+	
+	# spawn fan
+	var fan: Fan = fan_scn.instantiate()
+	fan.global_position = Vector3(round_info.round_end_distance - .5, 0, 0)
+	add_child(fan)
 	
 	current_round = round_info
 	current_mode = GameMode.PLAYING
@@ -162,8 +169,8 @@ func add_carry_item_frame(frame: GameObjectFrameState) -> void:
 func default_first_round_game_info() -> RoundInfo:
 	var info := RoundInfo.new()
 	info.player_spawn_point = Vector3(0, 1, 0)
-	info.ball_spawn_point = Vector3(-5, 4, 0)
-	info.ball_starting_velocity = Vector3(5, 5, 0)
+	info.ball_spawn_point = Vector3(-5, 6, 0)
+	info.ball_starting_velocity = Vector3(0, 0, 0)
 	info.round_end_distance = 30
 	return info
 
