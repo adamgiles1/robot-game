@@ -1,6 +1,7 @@
 class_name Fan extends Node3D
 
 @onready var area: Area3D = $Area3D
+@onready var fan_rotar: Node3D = $fan/Cylinder
 
 var force: Vector3 = Vector3(0, 20, 0)
 
@@ -14,3 +15,5 @@ func _process(delta: float) -> void:
 	if area.has_overlapping_bodies():
 		for item: CarryItem in area.get_overlapping_bodies():
 			item.set_wind_force(force)
+	
+	fan_rotar.rotate_y(delta * -8)

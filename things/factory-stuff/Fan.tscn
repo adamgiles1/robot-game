@@ -1,15 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://e6lfpty77dy4"]
+[gd_scene load_steps=12 format=3 uid="uid://e6lfpty77dy4"]
 
 [ext_resource type="Script" uid="uid://djloin7nno7e1" path="res://things/factory-stuff/fan.gd" id="1_ipito"]
+[ext_resource type="PackedScene" uid="uid://ccrsa6vnqs37o" path="res://models/props/fan.glb" id="2_qhe07"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_j73ow"]
-size = Vector3(1, 0.1, 1)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ipito"]
-data = PackedVector3Array(-0.5, 0.049999997, 0.5, 0.5, 0.049999997, 0.5, -0.5, -0.049999997, 0.5, 0.5, 0.049999997, 0.5, 0.5, -0.049999997, 0.5, -0.5, -0.049999997, 0.5, 0.5, 0.049999997, -0.5, -0.5, 0.049999997, -0.5, 0.5, -0.049999997, -0.5, -0.5, 0.049999997, -0.5, -0.5, -0.049999997, -0.5, 0.5, -0.049999997, -0.5, 0.5, 0.049999997, 0.5, 0.5, 0.049999997, -0.5, 0.5, -0.049999997, 0.5, 0.5, 0.049999997, -0.5, 0.5, -0.049999997, -0.5, 0.5, -0.049999997, 0.5, -0.5, 0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, -0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, -0.049999997, 0.5, -0.5, -0.049999997, -0.5, 0.5, 0.049999997, 0.5, -0.5, 0.049999997, 0.5, 0.5, 0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, 0.049999997, -0.5, 0.5, 0.049999997, -0.5, -0.5, -0.049999997, 0.5, 0.5, -0.049999997, 0.5, -0.5, -0.049999997, -0.5, 0.5, -0.049999997, 0.5, 0.5, -0.049999997, -0.5, -0.5, -0.049999997, -0.5)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_j73ow"]
-data = PackedVector3Array(-0.5, 10, 0.5, 0.5, 10, 0.5, -0.5, -10, 0.5, 0.5, 10, 0.5, 0.5, -10, 0.5, -0.5, -10, 0.5, 0.5, 10, -0.5, -0.5, 10, -0.5, 0.5, -10, -0.5, -0.5, 10, -0.5, -0.5, -10, -0.5, 0.5, -10, -0.5, 0.5, 10, 0.5, 0.5, 10, -0.5, 0.5, -10, 0.5, 0.5, 10, -0.5, 0.5, -10, -0.5, 0.5, -10, 0.5, -0.5, 10, -0.5, -0.5, 10, 0.5, -0.5, -10, -0.5, -0.5, 10, 0.5, -0.5, -10, 0.5, -0.5, -10, -0.5, 0.5, 10, 0.5, -0.5, 10, 0.5, 0.5, 10, -0.5, -0.5, 10, 0.5, -0.5, 10, -0.5, 0.5, 10, -0.5, -0.5, -10, 0.5, 0.5, -10, 0.5, -0.5, -10, -0.5, 0.5, -10, 0.5, 0.5, -10, -0.5, -0.5, -10, -0.5)
+size = Vector3(3, 0.1, 3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j73ow"]
 transparency = 1
@@ -17,27 +12,79 @@ albedo_color = Color(1, 0, 0, 0.2509804)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ipito"]
 material = SubResource("StandardMaterial3D_j73ow")
-size = Vector3(1, 20, 1)
+size = Vector3(3, 20, 3)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_qhe07"]
+data = PackedVector3Array(-1.5, 10, 1.5, 1.5, 10, 1.5, -1.5, -10, 1.5, 1.5, 10, 1.5, 1.5, -10, 1.5, -1.5, -10, 1.5, 1.5, 10, -1.5, -1.5, 10, -1.5, 1.5, -10, -1.5, -1.5, 10, -1.5, -1.5, -10, -1.5, 1.5, -10, -1.5, 1.5, 10, 1.5, 1.5, 10, -1.5, 1.5, -10, 1.5, 1.5, 10, -1.5, 1.5, -10, -1.5, 1.5, -10, 1.5, -1.5, 10, -1.5, -1.5, 10, 1.5, -1.5, -10, -1.5, -1.5, 10, 1.5, -1.5, -10, 1.5, -1.5, -10, -1.5, 1.5, 10, 1.5, -1.5, 10, 1.5, 1.5, 10, -1.5, -1.5, 10, 1.5, -1.5, 10, -1.5, 1.5, 10, -1.5, -1.5, -10, 1.5, 1.5, -10, 1.5, -1.5, -10, -1.5, 1.5, -10, 1.5, 1.5, -10, -1.5, -1.5, -10, -1.5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ipito"]
+data = PackedVector3Array(-0.5, 0.049999997, 0.5, 0.5, 0.049999997, 0.5, -0.5, -0.049999997, 0.5, 0.5, 0.049999997, 0.5, 0.5, -0.049999997, 0.5, -0.5, -0.049999997, 0.5, 0.5, 0.049999997, -0.5, -0.5, 0.049999997, -0.5, 0.5, -0.049999997, -0.5, -0.5, 0.049999997, -0.5, -0.5, -0.049999997, -0.5, 0.5, -0.049999997, -0.5, 0.5, 0.049999997, 0.5, 0.5, 0.049999997, -0.5, 0.5, -0.049999997, 0.5, 0.5, 0.049999997, -0.5, 0.5, -0.049999997, -0.5, 0.5, -0.049999997, 0.5, -0.5, 0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, -0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, -0.049999997, 0.5, -0.5, -0.049999997, -0.5, 0.5, 0.049999997, 0.5, -0.5, 0.049999997, 0.5, 0.5, 0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, 0.049999997, -0.5, 0.5, 0.049999997, -0.5, -0.5, -0.049999997, 0.5, 0.5, -0.049999997, 0.5, -0.5, -0.049999997, -0.5, 0.5, -0.049999997, 0.5, 0.5, -0.049999997, -0.5, -0.5, -0.049999997, -0.5)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qhe07"]
+emission_shape_scale = Vector3(1.5, 0, 1.5)
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="Curve" id="Curve_qhe07"]
+_data = [Vector2(0, 0), 0.0, 1.7884996, 0, 0, Vector2(0.53048784, 0.25842702), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.026967, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qhe07"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.043137256)
+billboard_mode = 2
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_ycspi"]
+material = SubResource("StandardMaterial3D_qhe07")
+shape = 0
+size = 0.5
+sections = 2
+section_length = 0.5
+curve = SubResource("Curve_qhe07")
 
 [node name="Fan" type="Node3D"]
 script = ExtResource("1_ipito")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("BoxMesh_j73ow")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_ipito")
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 0
 collision_mask = 4
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+visible = false
+mesh = SubResource("BoxMesh_ipito")
+skeleton = NodePath("../..")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-shape = SubResource("ConcavePolygonShape3D_j73ow")
+shape = SubResource("ConcavePolygonShape3D_qhe07")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-mesh = SubResource("BoxMesh_ipito")
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_ipito")
+
+[node name="fan" parent="." instance=ExtResource("2_qhe07")]
+transform = Transform3D(1.49, 0, 0, 0, 1.49, 0, 0, 0, 1.49, 0, 0, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5570843, 0)
+amount = 300
+trail_enabled = true
+trail_lifetime = 0.09999999999999999
+process_material = SubResource("ParticleProcessMaterial_qhe07")
+draw_pass_1 = SubResource("RibbonTrailMesh_ycspi")
+
+[editable path="fan"]

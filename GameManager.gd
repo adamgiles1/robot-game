@@ -78,7 +78,7 @@ func start_round(round_info: RoundInfo) -> void:
 	# setup camera
 	camera = preload("res://player/main_camera.tscn").instantiate()
 	add_child(camera)
-	camera.global_position = Vector3(0, 5, 15)
+	camera.global_position = Vector3(0, 5, 10)
 	camera.set_target(player)
 	
 	# spawn fan
